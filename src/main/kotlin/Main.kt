@@ -1,77 +1,24 @@
+import java.lang.StringBuilder
+
 fun main(args: Array<String>) {
-    fun romanToInt(s: String): Int {
-        var number = 0
-        var index = 0
-        while (index < s.length) {
-            when (s[index]) {
-                'I' -> {
-                    if (index < s.length - 1) {
-                        when (s[index + 1]) {
-                            'V' -> {
-                                number += 4
-                                index++
-                            }
+val str = arrayOf("aaaaaaaaaaaa","aaaaaaaaaaaaaaaaaaaaaaa","aaaa","aaaaaaaaaaaaaaaaaaaaaaaa","aab","aaaaaaaaaaaaaaaaaaaaaa","aaaaaa",
+"aaaaaaaaaaaaaaaaaaaaaaa","aaaaa","aaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+println(longestCommonPrefix(str))
+}
 
-                            'X' -> {
-                                number += 9
-                                index++
-                            }
-
-                            else -> number += 1
-                        }
-                    } else number += 1
-                }
-
-                'V' -> number += 5
-                'X' -> {
-                    if (index < s.length - 1) {
-                        when (s[index + 1]) {
-                            'L' -> {
-                                number += 40
-                                index++
-                            }
-
-                            'C' -> {
-                                number += 90
-                                index++
-                            }
-
-                            else -> number += 10
-                        }
-                    } else number += 10
-                }
-
-                'L' -> number += 50
-                'C' -> {
-                    if (index < s.length - 1) {
-                        when (s[index + 1]) {
-                            'D' -> {
-                                number += 400
-                                index++
-                            }
-
-                            'M' -> {
-                                number += 900
-                                index++
-                            }
-
-                            else -> number += 100
-                        }
-                    } else number += 100
-                }
-
-                'D' -> number += 500
-                'M' -> number += 1000
-            }
-            index++
+fun longestCommonPrefix(strs: Array<String>): String {
+    var index = 0
+    var commonPrefix = ""
+    var previousPrefix = ""
+    if (strs.size == 1)return strs[0]
+    while (index<strs.size-1){
+        commonPrefix = strs[index].commonPrefixWith(strs[index+1])
+        when{
+            commonPrefix.isEmpty() -> return ""
+            index == 0 -> previousPrefix = commonPrefix
+            commonPrefix.length < previousPrefix.length -> previousPrefix = previousPrefix.commonPrefixWith(commonPrefix)
         }
-        return number
+        index++
     }
-
-    print(romanToInt("MCMXCIV").toString())
-//    val stringBuilder1 = StringBuilder("Suhail")
-//    println(stringBuilder1.deleteCharAt(2))
-//    println(stringBuilder1.length)
-//    println(stringBuilder1.deleteAt(0))
-//    println(stringBuilder1.length)
+    return previousPrefix
 }
